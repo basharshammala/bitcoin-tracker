@@ -40,7 +40,7 @@ if not data.empty:
     st.dataframe(data)  # عرض البيانات في جدول
 
     st.write("## الرسم البياني لسعر البيتكوين مقابل الوقت")
-    fig = px.line(data, x="open_time", y="close", title="Bitcoin Price Over Time")
+    fig = px.line(data, x="timestamp", y="price", title="Bitcoin Price Over Time")
     fig.update_layout(xaxis_title="Time", yaxis_title="Price (USD)")
     st.plotly_chart(fig)
 
