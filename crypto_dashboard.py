@@ -18,7 +18,6 @@ def fetch_crypto_data():
     params = {"vs_currency": "usd", "days": "7"}
     try:
         response = requests.get(url, params=params)
-        st.write(f"Status Code: {response.status_code}")
         if response.status_code == 200:
             data = response.json()
             prices = data["prices"]
