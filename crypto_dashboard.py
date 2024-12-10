@@ -47,6 +47,19 @@ if not data.empty:
     # زر لتصدير البيانات إلى CSV
     st.write("## تصدير البيانات")
     if st.button("تصدير إلى CSV"):
+        # تحديد اسم الملف
         csv_file = "bitcoin_data.csv"
+        
+        # حفظ الملف في مسار مؤقت
         data.to_csv(csv_file, index=False)
+        
+        # توفير رابط لتحميل الملف
+        with open(csv_file, "r") as f:
+            st.download_button(
+                label="تحميل الملف",
+                data=f,
+                file_name=csv_file,
+                mime="text/csv"
+            )
+        
         st.success(f"تم تصدير البيانات إلى الملف: {csv_file}")
