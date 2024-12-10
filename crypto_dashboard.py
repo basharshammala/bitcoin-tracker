@@ -14,21 +14,17 @@ st.write("Eng.Bashar Salah")
 # Developed by Eng. Bashar Salah
 @st.cache_data
 def fetch_crypto_data():
-    url = "https://api.binance.com/api/v3/klines"
-    params = {"symbol": "BTCUSDT", "interval": "1h", "limit": 720}
+    url = "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart"
+    params = {"vs_currency": "usd", "days": "7"}
     try:
         response = requests.get(url, params=params)
-        # st.write(f"Status Code: {response.status_code}")
+        st.write(f"Status Code: {response.status_code}")
         if response.status_code == 200:
             data = response.json()
-            df = pd.DataFrame(data, columns=[
-                "open_time", "open", "high", "low", "close", "volume",
-                "close_time", "quote_asset_volume", "number_of_trades",
-                "taker_buy_base_asset_volume", "taker_buy_quote_asset_volume", "ignore"
-            ])
-            df["open_time"] = pd.to_datetime(df["open_time"], unit="ms")
-            df["close"] = df["close"].astype(float)
-            return df[["open_time", "close"]]
+            prices = data["prices"]
+            df = pd.DataFrame(prices, columns=["timestamp", "price"])
+            df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
+            return df
         else:
             st.error(f"Error fetching data! Status Code: {response.status_code}")
             return pd.DataFrame()
